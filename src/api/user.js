@@ -1,24 +1,18 @@
-import request from '@/utils/request'
+import { post, get, deleter, put } from '@/utils/request'
+import Encrypt from '@/utils/encrypt'
 
-export function login(data) {
-  return request({
-    url: '/vue-admin-template/user/login',
-    method: 'post',
-    data
-  })
+export async function login(data) {
+  const data1 = {
+    ...data,
+    password: await Encrypt.encodePassword(data.username, data.password)
+  }
+  return post('/login', data1)
 }
 
 export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
-  })
+  return get('/user/info', token)
 }
 
-export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
-  })
+export function logout(token) {
+  return post('/vue-admin-template/user/logout', token)
 }
