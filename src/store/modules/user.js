@@ -6,7 +6,8 @@ const getDefaultState = () => {
   return {
     name: '',
     avatar: '',
-    roles: []
+    roles: [],
+    menuList: []
   }
 }
 
@@ -16,8 +17,8 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },
-  SET_TOKEN: (state, token) => {
-    state.token = token
+  SET_MENU: (state, menuList) => {
+    state.menuList = menuList
   },
   SET_NAME: (state, name) => {
     state.name = name
@@ -50,18 +51,19 @@ const actions = {
         let { data } = response
 
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('验证失败，请重新登录')
         }
 
         data = JSON.parse(data)
-        const { roles, username, avatar } = data
+        const { roles, menu, username, avatar } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+          reject('角色不能为空')
         }
 
         commit('SET_ROLES', roles)
+        commit('SET_MENU', menu)
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         resolve(data)
@@ -74,23 +76,14 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
+      logout().then(() => {
+        removeToken()
         resetRouter()
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
         reject(error)
       })
-    })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      removeToken() // must remove  token  first
-      commit('RESET_STATE')
-      resolve()
     })
   }
 }
