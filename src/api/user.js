@@ -1,4 +1,4 @@
-import { post, get, deleter, put } from '@/utils/request'
+import { get, post } from '@/utils/request'
 import Encrypt from '@/utils/encrypt'
 
 export async function login(data) {
@@ -10,7 +10,10 @@ export async function login(data) {
 }
 
 export function getInfo(token) {
-  return get('/user/info', token)
+  const data = {
+    token: token
+  }
+  return get('/getUserInfo', data)
 }
 
 export function logout(token) {

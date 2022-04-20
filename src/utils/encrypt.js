@@ -23,7 +23,7 @@ export default {
     }
     await get('/getSecretKey', data).then((res) => {
       if (res.success) {
-        secret = res.message.split('-')
+        secret = res.data.split('-')
       }
     })
 
