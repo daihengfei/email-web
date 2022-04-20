@@ -85,6 +85,15 @@ const actions = {
         reject(error)
       })
     })
+  },
+
+  // remove token
+  resetToken({ commit }) {
+    return new Promise(resolve => {
+      removeToken() // must remove  token  first
+      commit('RESET_STATE')
+      resolve()
+    })
   }
 }
 

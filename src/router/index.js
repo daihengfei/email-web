@@ -55,7 +55,7 @@ export const constantRoutes = [
     }]
   },
 
-  /*  {
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
@@ -88,7 +88,7 @@ export const constantRoutes = [
         meta: { title: 'Form', icon: 'form' }
       }
     ]
-  }*/
+  }
 ]
 
 /**

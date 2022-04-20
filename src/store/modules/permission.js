@@ -1,4 +1,6 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import {asyncRoutes, constantRoutes} from '@/router'
+/* Layout */
+import Layout from '@/layout'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -16,7 +18,7 @@ function hasPermission(roles, route) {
 function setChildMenu(id, menu) {
   const childMenu = []
   menu.forEach(item => {
-    if (item.parentId === id) {
+    if (item.menuParentId === id) {
       childMenu.push(item)
     }
   })
@@ -28,6 +30,7 @@ function setChildMenu(id, menu) {
  * @param routes asyncRoutes
  * @param roles
  */
+
 /* export function filterAsyncRoutes(routes, menu) {
   const res = []
 
@@ -43,21 +46,35 @@ function setChildMenu(id, menu) {
 
   return res
 }*/
-export function filterAsyncRoutes(menu) {
+export function filterAsyncRoutes(menuList) {
   const res = []
-  const childMenu = []
-  menu.forEach(item => {
-    if (item.menuParentId === 0) {
-      item.children = setChildMenu(item.id, menu)
+
+  menuList.forEach(menu => {
+    if (menu.children) {
+      const children = []
+      menu.children.forEach(route => { // 二级菜单需匹配页面
+        children.push({
+          path: route.menuUrl,
+          name: route.menuName,
+          // 此处使用require，由于import会有奇怪的错误
+          component: (resolve) => require([`@/views${route.menuUrl}/index`], resolve),
+          meta: {
+            title: route.menuName,
+            icon: route.menuIcon
+          }
+        })
+      })
+
+      res.push({
+        path: menu.menuUrl,
+        component: Layout,
+        meta: {
+          title: menu.menuName,
+          icon: menu.menuIcon
+        },
+        children: children
+      })
     }
-    childMenu.path = item.menuUrl
-  /*  const tmp = { ...route }
-    if (hasPermission(menu, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
-      }
-      res.push(tmp)
-    }*/
   })
 
   return res
@@ -76,16 +93,17 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, menu) {
+  generateRoutes({ commit }, menuList) {
     return new Promise(resolve => {
-      /* const menuList = []
-      menu.forEach(item => {
-        if (item.menuParentId === 0) {
-          item.children = setChildMenu(item.id, menu)
+      const newMenuList = []
+      menuList.forEach(menu => {
+        if (menu.menuParentId === 0) {
+          menu.children = setChildMenu(menu.id, menuList)
+          newMenuList.push(menu)
         }
-        menuList.push(item)
-      })*/
-      const accessedRoutes = filterAsyncRoutes(asyncRoutes, menu)
+      })
+      // const accessedRoutes = filterAsyncRoutes(asyncRoutes, newMenuList)
+      const accessedRoutes = filterAsyncRoutes(newMenuList)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
