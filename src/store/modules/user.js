@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, register, getVerCode, logout, getInfo } from '@/api/user'
 import { getToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -37,6 +37,32 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  register({ commit }, userInfo) {
+    const { email, username, password, verCode } = userInfo
+    const data = {
+      email: email,
+      username: username,
+      password: password
+    }
+    return new Promise((resolve, reject) => {
+      register({ data: data, vercode: verCode }).then(response => {
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  getVerCode({ commit }, email) {
+    return new Promise((resolve, reject) => {
+      getVerCode({ email: email }).then(response => {
         resolve()
       }).catch(error => {
         reject(error)

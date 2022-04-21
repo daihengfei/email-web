@@ -15,6 +15,7 @@ service.interceptors.request.use(
       config.headers['Authorization'] = getToken()
     }
     config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+    config.headers['Access-Control-Allow-Origin'] = '*'
     return config
   },
   error => {
@@ -26,8 +27,8 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    if (response.status !== 200) {
-      const res = response.data;
+    const res = response.data;
+    if (res.code !== 200) {
       Message({
         message: res.message || 'Error',
         type: 'error',
@@ -53,7 +54,7 @@ service.interceptors.response.use(
       if (token !== undefined && token !== null && token !== '') {
         setToken(token);
       }
-      return response.data
+      return res
     }
   },
   error => {
