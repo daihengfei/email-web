@@ -13,14 +13,14 @@
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
         {{ tag.title }}
-        <span v-if="!isAffix(tag) && tag.path !== '/dashboard'" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
       <li @click="refreshSelectedTag(selectedTag)">刷新</li>
-      <li v-if="!isAffix(selectedTag) && selectedTag.path !== '/dashboard'" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
       <li @click="closeOthersTags">关闭其他</li>
-      <li v-if="!isAffix(selectedTag) && selectedTag.path !== '/dashboard'" @click="closeAllTags(selectedTag)">关闭所有</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeAllTags(selectedTag)">关闭所有</li>
     </ul>
   </div>
 </template>
@@ -74,8 +74,9 @@ export default {
     },
     filterAffixTags(routes, basePath = '/') {
       let tags = []
+      debugger
       routes.forEach(route => {
-        if (route.meta && route.meta.affix) {
+        if ((route.meta && route.meta.affix)) {
           const tagPath = path.resolve(basePath, route.path)
           tags.push({
             fullPath: tagPath,
@@ -126,6 +127,7 @@ export default {
     },
     refreshSelectedTag(view) {
       this.$store.dispatch('tagsView/delCachedView', view).then(() => {
+        console.log(view)
         const { fullPath } = view
         this.$nextTick(() => {
           this.$router.replace({

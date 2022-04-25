@@ -1,4 +1,4 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import { constantRoutes } from '@/router'
 /* Layout */
 import Layout from '@/layout'
 
@@ -27,25 +27,8 @@ function setChildMenu(id, menu) {
 
 /**
  * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
- * @param roles
+ * @param menuList menuList
  */
-
-/* export function filterAsyncRoutes(routes, menu) {
-  const res = []
-
-  routes.forEach(route => {
-    const tmp = { ...route }
-    if (hasPermission(menu, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
-      }
-      res.push(tmp)
-    }
-  })
-
-  return res
-}*/
 export function filterAsyncRoutes(menuList) {
   const res = []
 
@@ -69,6 +52,7 @@ export function filterAsyncRoutes(menuList) {
         res.push({
           path: menu.menuUrl,
           component: Layout,
+          alwaysShow: true,
           redirect: 'noRedirect',
           meta: {
             title: menu.menuName,
@@ -80,6 +64,7 @@ export function filterAsyncRoutes(menuList) {
         res.push({
           path: menu.menuUrl,
           name: menu.menuName,
+          alwaysShow: true,
           // 此处使用require，由于import会有奇怪的错误
           component: (resolve) => require([`@/views${menu.menuUrl}/index`], resolve),
           meta: {
