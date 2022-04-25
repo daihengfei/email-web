@@ -1,4 +1,4 @@
-import {asyncRoutes, constantRoutes} from '@/router'
+import { asyncRoutes, constantRoutes } from '@/router'
 /* Layout */
 import Layout from '@/layout'
 
@@ -50,33 +50,48 @@ export function filterAsyncRoutes(menuList) {
   const res = []
 
   menuList.forEach(menu => {
-    if (menu.children) {
-      const children = []
-      menu.children.forEach(route => { // 二级菜单需匹配页面
-        children.push({
-          path: route.menuUrl,
-          name: route.menuName,
-          // 此处使用require，由于import会有奇怪的错误
-          component: (resolve) => require([`@/views${route.menuUrl}/index`], resolve),
+    if (menu.menuUrl !== '/dashboard') {
+      if (menu.children) {
+        const children = []
+        menu.children.forEach(route => { // 二级菜单需匹配页面
+          children.push({
+            path: route.menuUrl,
+            name: route.menuName,
+            // 此处使用require，由于import会有奇怪的错误
+            component: (resolve) => require([`@/views${route.menuUrl}/index`], resolve),
+            meta: {
+              title: route.menuName,
+              icon: route.menuIcon
+            }
+          })
+        })
+
+        res.push({
+          path: menu.menuUrl,
+          component: Layout,
+          redirect: 'noRedirect',
           meta: {
-            title: route.menuName,
-            icon: route.menuIcon
+            title: menu.menuName,
+            icon: menu.menuIcon
+          },
+          children: children
+        })
+      } else {
+        res.push({
+          path: menu.menuUrl,
+          name: menu.menuName,
+          // 此处使用require，由于import会有奇怪的错误
+          component: (resolve) => require([`@/views${menu.menuUrl}/index`], resolve),
+          meta: {
+            title: menu.menuName,
+            icon: menu.menuIcon
           }
         })
-      })
-
-      res.push({
-        path: menu.menuUrl,
-        component: Layout,
-        meta: {
-          title: menu.menuName,
-          icon: menu.menuIcon
-        },
-        children: children
-      })
+      }
     }
   })
 
+  res.push({ path: '*', redirect: '/404', hidden: true })
   return res
 }
 

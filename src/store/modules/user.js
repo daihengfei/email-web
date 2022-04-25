@@ -106,6 +106,7 @@ const actions = {
         removeToken()
         resetRouter()
         commit('RESET_STATE')
+        this.$store.dispatch('tagsView/delAllViews', null, { root: true })
         resolve()
       }).catch(error => {
         reject(error)

@@ -68,7 +68,7 @@ service.interceptors.response.use(
     } else {
       Message.error('未知错误');
     }
-    return Promise.reject(error)
+    // return Promise.reject(error)
   }
 )
 
