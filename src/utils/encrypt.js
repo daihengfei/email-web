@@ -1,5 +1,6 @@
 import CryptoJS from 'crypto-js'
 import { get } from '@/utils/request'
+import { getSecretKey } from '@/api/user'
 
 export default {
   Crypto: CryptoJS,
@@ -21,7 +22,7 @@ export default {
     const data = {
       email: email
     }
-    await get('/getSecretKey', data).then((res) => {
+    await getSecretKey(data).then((res) => {
       if (res.success) {
         secret = res.data.split('-')
       }

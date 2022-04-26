@@ -16,22 +16,26 @@ export async function register(info) {
     ...info,
     data: user
   }
-  return post('/register', info)
+  return post('/user/register', info)
 }
 
 export function getInfo(token) {
   const data = {
     token: token
   }
-  return get('/getUserInfo', data)
+  return get('/user/getUserInfo', data)
 }
 
-export function getVerCode(email) {
-  return get('/sendVerCode', email)
+export function getSecretKey(email) {
+  return get('/user/getSecretKey', email)
 }
 
 export function logout(token) {
   return post('/logout', token)
+}
+
+export function getVerCode(email) {
+  return get('/system/sendVerCode', email)
 }
 
 async function passwordChanged(data) {

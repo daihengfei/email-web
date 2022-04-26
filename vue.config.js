@@ -45,7 +45,7 @@ module.exports = {
         ws: true, // 是否启用websockets
         pathRewrite: {
           // 路径重写
-          '^/api': '/api' // 用'/api'代替target里面的地址,比如我要调用'http://40.00.100.100:3002/user/add'，直接写'http://127.0.0.1:8080/user/add'
+          '^/api': '/email' // 用'/api'代替target里面的地址,比如我要调用'http://40.00.100.100:3002/user/add'，直接写'http://127.0.0.1:8080/user/add'
         }
       }
     }

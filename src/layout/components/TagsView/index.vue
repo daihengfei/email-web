@@ -127,7 +127,6 @@ export default {
     },
     refreshSelectedTag(view) {
       this.$store.dispatch('tagsView/delCachedView', view).then(() => {
-        console.log(view)
         const { fullPath } = view
         this.$nextTick(() => {
           this.$router.replace({
