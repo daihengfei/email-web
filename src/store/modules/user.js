@@ -1,6 +1,7 @@
 import { login, register, getVerCode, logout, getInfo } from '@/api/user'
 import { getToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import { Message } from 'element-ui'
 
 const getDefaultState = () => {
   return {
@@ -102,9 +103,10 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout().then(() => {
+      logout().then((response) => {
         removeToken()
         resetRouter()
+        Message.info(response.data.data)
         commit('RESET_STATE')
         // this.$store.dispatch('tagsView/delAllViews', null, { root: true })
         resolve()
