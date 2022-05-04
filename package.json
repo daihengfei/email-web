@@ -16,6 +16,7 @@
     "axios": "0.26.1",
     "core-js": "3.6.5",
     "crypto-js": "^4.1.1",
+    "dplayer": "^1.26.0",
     "element-ui": "2.15.6",
     "js-cookie": "3.0.1",
     "normalize.css": "7.0.0",

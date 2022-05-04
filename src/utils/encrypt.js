@@ -1,5 +1,4 @@
-import CryptoJS from 'crypto-js'
-import { get } from '@/utils/request'
+import CryptoJS from 'crypto-js';
 import { getSecretKey } from '@/api/user'
 
 export default {

@@ -7,8 +7,7 @@ const getDefaultState = () => {
   return {
     name: '',
     avatar: '',
-    roles: [],
-    menuList: []
+    roles: []
   }
 }
 
@@ -17,9 +16,6 @@ const state = getDefaultState()
 const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
-  },
-  SET_MENU: (state, menuList) => {
-    state.menuList = menuList
   },
   SET_NAME: (state, name) => {
     state.name = name
@@ -38,6 +34,17 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
+        if (response.code === 200) {
+          Message({
+            message: '登录成功',
+            type: 'success'
+          })
+        } else {
+          Message({
+            message: '登录失败',
+            type: 'error'
+          })
+        }
         resolve()
       }).catch(error => {
         reject(error)
@@ -82,7 +89,7 @@ const actions = {
         }
 
         data = JSON.parse(data)
-        const { roles, menu, username, avatar } = data
+        const { roles, username, avatar } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -90,7 +97,6 @@ const actions = {
         }
 
         commit('SET_ROLES', roles)
-        commit('SET_MENU', menu)
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         resolve(data)
@@ -106,7 +112,10 @@ const actions = {
       logout().then((response) => {
         removeToken()
         resetRouter()
-        Message.info(response.data.data)
+        Message({
+          message: response.data,
+          type: 'success'
+        })
         commit('RESET_STATE')
         // this.$store.dispatch('tagsView/delAllViews', null, { root: true })
         resolve()

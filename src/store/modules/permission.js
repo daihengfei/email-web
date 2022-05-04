@@ -1,29 +1,7 @@
 import { constantRoutes } from '@/router'
 /* Layout */
 import Layout from '@/layout'
-
-/**
- * Use meta.role to determine if the current user has permission
- * @param roles
- * @param route
- */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
-  } else {
-    return true
-  }
-}
-
-function setChildMenu(id, menu) {
-  const childMenu = []
-  menu.forEach(item => {
-    if (item.menuParentId === id) {
-      childMenu.push(item)
-    }
-  })
-  return childMenu
-}
+import { generateChildrenMenu } from '@/utils/util';
 
 /**
  * Filter asynchronous routing tables by recursion
@@ -95,14 +73,7 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, menuList) {
     return new Promise(resolve => {
-      const newMenuList = []
-      menuList.forEach(menu => {
-        if (menu.menuParentId === 0) {
-          menu.children = setChildMenu(menu.id, menuList)
-          newMenuList.push(menu)
-        }
-      })
-      // const accessedRoutes = filterAsyncRoutes(asyncRoutes, newMenuList)
+      const newMenuList = generateChildrenMenu(menuList);
       const accessedRoutes = filterAsyncRoutes(newMenuList)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)

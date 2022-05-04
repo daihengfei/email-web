@@ -15,7 +15,7 @@
 
       <el-form-item prop="email">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="email" />
         </span>
         <el-input
           ref="email"
@@ -45,7 +45,7 @@
 
       <el-form-item prop="verCode">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="message" />
         </span>
         <el-input
           ref="verCode"
@@ -82,7 +82,7 @@
           auto-complete="on"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
 
