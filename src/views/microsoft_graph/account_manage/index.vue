@@ -1,11 +1,20 @@
 <template>
   <div class="app-container">
+    <div class="header">
+      <el-input
+        v-model="emailSearch"
+        placeholder="邮箱"
+      />
+    </div>
     <el-table
       :data="account"
       border
       :height="table.height"
       :highlight-current-row="true"
-      :row-style="{height: '25px'}"
+      :row-style="table.rowClassName"
+      :header-row-style="{height: '40px'}"
+      :cell-style="{padding: '0px'}"
+      :header-cell-style="{padding: '0px'}"
       :default-sort="{prop: 'createTime', order: 'descending'}"
     >
       <el-table-column
@@ -26,7 +35,7 @@
       <el-table-column
         prop="clientId"
         label="应用程序ID"
-        min-width="350"
+        min-width="300"
       />
       <el-table-column
         prop="createdAt"
@@ -53,7 +62,7 @@
       <el-table-column
         prop="enabled"
         label="启用"
-        min-width="50"
+        min-width="80"
         sortable
       />
     </el-table>
@@ -74,6 +83,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      emailSearch: '',
       account: [{
         userEmail: '1',
         userName: '1',
@@ -117,17 +127,12 @@ export default {
 
   methods: {
     computedTableHeight() {
-      return window.innerHeight - 178;
+      return window.innerHeight - 218;
     },
 
     computedRowClassName() {
       return (row, index) => {
         return 'el-table-row-style';
-        /* if (index % 2 === 0) {
-          return 'table-row-light';
-        } else {
-          return 'table-row-dark';
-        }*/
       }
     },
 
@@ -157,12 +162,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.header{
+  //display: flex;
+  background-color: #f5f7fa;
+  border-bottom: 1px solid #ebeef5;
+  margin-bottom: 5px;
+}
+.el-input{
+  height: 30px;
+}
 .el-table {
   width: 100%;
 
   .row-style {
     background-color: #fff;
-    max-height: 25px;
+    max-height: 35px;
   }
 }
 
