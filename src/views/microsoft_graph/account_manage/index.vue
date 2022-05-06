@@ -16,6 +16,7 @@
         type="daterange"
         align="right"
         unlink-panels
+        :editable="false"
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
@@ -185,9 +186,15 @@ export default {
       this.loading = true;
       this.loading = false;
       const search = {
-        page: this.pagination.listQuery.page,
-        limit: this.pagination.listQuery.limit
+        search: {
+          page: this.pagination.listQuery.page,
+          limit: this.pagination.listQuery.limit,
+          userEmail: this.emailSearch,
+          userName: this.userNameSearch,
+          createTime: this.dataSearch
+        }
       };
+      console.log(search);
       getAccountList(search).then(res => {
         this.account = res.data.data;
         this.pagination.total = res.data.total;
@@ -210,14 +217,14 @@ export default {
 .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner {
   width: 270px;
   margin-right: 10px;
-  padding-top: 0;
+  /*padding-top: 0;*/
 }
-.el-range-input{
+/*.el-range-input{
   padding-top: 3px;
 }
 .el-range-separator{
   padding-top: 3px;
-}
+}*/
 </style>
 
 <style lang="scss" scoped>
