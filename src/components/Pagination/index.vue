@@ -132,6 +132,7 @@ export default {
   padding: 20px 16px;
   text-align: center;
   max-height: 50px;
+  vertical-align: center;
 }
 .pagination-container.hidden {
   display: none;

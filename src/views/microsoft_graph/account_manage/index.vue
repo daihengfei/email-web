@@ -4,18 +4,34 @@
       <el-input
         v-model="emailSearch"
         placeholder="邮箱"
+        size="small"
       />
+      <el-input
+        v-model="userNameSearch"
+        placeholder="用户名"
+        size="small"
+      />
+      <el-date-picker
+        v-model="dataSearch"
+        type="daterange"
+        align="right"
+        unlink-panels
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        :picker-options="pickerOptions"
+        popper-class="date-picker-popper"
+        size="small"
+      />
+      <el-button type="primary" icon="el-icon-search" size="small" @click="getAccountList">搜索</el-button>
     </div>
     <el-table
       :data="account"
       border
       :height="table.height"
       :highlight-current-row="true"
-      :row-style="table.rowClassName"
-      :header-row-style="{height: '40px'}"
-      :cell-style="{padding: '0px'}"
-      :header-cell-style="{padding: '0px'}"
       :default-sort="{prop: 'createTime', order: 'descending'}"
+      size="mini"
     >
       <el-table-column
         prop="userEmail"
@@ -84,6 +100,35 @@ export default {
   data() {
     return {
       emailSearch: '',
+      userNameSearch: '',
+      dataSearch: '',
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
       account: [{
         userEmail: '1',
         userName: '1',
@@ -94,10 +139,19 @@ export default {
         updatedAt: '1',
         createTime: '1',
         updateTime: '1'
+      }, {
+        userEmail: '2',
+        userName: '1',
+        displayName: '1',
+        clientId: '1',
+        enabled: true,
+        createdAt: '1',
+        updatedAt: '1',
+        createTime: '2',
+        updateTime: '1'
       }],
       table: {
-        height: 0,
-        rowClassName: ''
+        height: 0
       },
       pagination: {
         total: 0,
@@ -110,14 +164,11 @@ export default {
   },
 
   computed: {
-    tableRowClassName({ enabled }) {
-      return 'row-style';
-    }
+
   },
 
   created() {
     this.table.height = this.computedTableHeight();
-    this.table.rowClassName = this.computedRowClassName();
     window.onresize = () => {
       return (() => {
         this.table.height = this.computedTableHeight();
@@ -127,13 +178,7 @@ export default {
 
   methods: {
     computedTableHeight() {
-      return window.innerHeight - 218;
-    },
-
-    computedRowClassName() {
-      return (row, index) => {
-        return 'el-table-row-style';
-      }
+      return window.innerHeight - 223;
     },
 
     getAccountList() {
@@ -161,28 +206,39 @@ export default {
 }
 </script>
 
+<style>
+.el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner {
+  width: 270px;
+  margin-right: 10px;
+  padding-top: 0;
+}
+.el-range-input{
+  padding-top: 3px;
+}
+.el-range-separator{
+  padding-top: 3px;
+}
+</style>
+
 <style lang="scss" scoped>
 .header{
-  //display: flex;
   background-color: #f5f7fa;
   border-bottom: 1px solid #ebeef5;
+  height: 40px;
+  line-height: 40px;
   margin-bottom: 5px;
-}
-.el-input{
-  height: 30px;
-}
-.el-table {
-  width: 100%;
 
-  .row-style {
-    background-color: #fff;
-    max-height: 35px;
+  .el-input{
+    width: 150px;
+    margin-right: 10px;
+  }
+
+  .el-button{
+    max-height: 32px;
   }
 }
 
-.el-pagination {
-  margin-top: 20px;
-  max-height: 50px;
-  vertical-align: center;
+.el-table {
+  width: 100%;
 }
 </style>

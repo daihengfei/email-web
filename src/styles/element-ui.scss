@@ -46,4 +46,14 @@
 // to fix el-date-picker css style
 .el-range-separator {
   box-sizing: content-box;
+  padding-top: 3px;
+}
+
+.el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner {
+  width: 270px;
+  margin-right: 10px;
+  padding-top: 0;
+}
+.el-range-input{
+  padding-top: 3px;
 }
