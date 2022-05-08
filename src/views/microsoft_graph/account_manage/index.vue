@@ -31,7 +31,7 @@
       border
       :height="table.height"
       :highlight-current-row="true"
-      :default-sort="{prop: 'createTime', order: 'descending'}"
+      :default-sort="{prop: 'createTime'}"
       size="mini"
     >
       <el-table-column
@@ -81,6 +81,7 @@
         label="启用"
         min-width="80"
         sortable
+        :formatter="formatEnabled"
       />
     </el-table>
     <Pagination
@@ -175,6 +176,9 @@ export default {
         this.table.height = this.computedTableHeight();
       })();
     };
+    const a = (this.table.height - 47) / 36;
+    console.log(~~a);
+    this.pagination.listQuery.limit = ~~a;
   },
 
   methods: {
@@ -208,6 +212,14 @@ export default {
         this.pagination.total = 0;
         this.accountList = [];
       });*/
+    },
+
+    formatEnabled(row, column, cellValue) {
+      if (cellValue) {
+        return '是';
+      } else {
+        return '否';
+      }
     }
   }
 }
@@ -217,14 +229,8 @@ export default {
 .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner {
   width: 270px;
   margin-right: 10px;
-  /*padding-top: 0;*/
 }
-/*.el-range-input{
-  padding-top: 3px;
-}
-.el-range-separator{
-  padding-top: 3px;
-}*/
+
 </style>
 
 <style lang="scss" scoped>
