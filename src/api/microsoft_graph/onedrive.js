@@ -1,11 +1,11 @@
-import { get } from '@/utils/request';
+import { get } from "@/utils/request"
 
 export function getFileList(accessToken, path) {
   return get(`https://graph.microsoft.com/v1.0/me/drive/root/${path}/children`, {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
-  });
+  })
 }
 
 export function getFileContent(accessToken, path) {
@@ -13,7 +13,7 @@ export function getFileContent(accessToken, path) {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
-  });
+  })
 }
 
 export function getFileThumbnail(accessToken, path) {
@@ -21,7 +21,7 @@ export function getFileThumbnail(accessToken, path) {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
-  });
+  })
 }
 
 export function getFilePreview(accessToken, path) {
@@ -29,7 +29,7 @@ export function getFilePreview(accessToken, path) {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
-  });
+  })
 }
 
 export function getFilePermission(accessToken, path) {
@@ -37,7 +37,7 @@ export function getFilePermission(accessToken, path) {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
-  });
+  })
 }
 
 export function getFileInfo(accessToken, path) {
@@ -45,5 +45,5 @@ export function getFileInfo(accessToken, path) {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
-  });
+  })
 }

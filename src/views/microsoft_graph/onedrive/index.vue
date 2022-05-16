@@ -1,13 +1,12 @@
 <template>
   <div class="onedrive-container">
-    <el-table>
-    </el-table>
+    <el-table />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'OneDrive'
+  name: "OneDrive"
 }
 </script>
 

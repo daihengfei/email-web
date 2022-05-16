@@ -1,13 +1,13 @@
-import router from './router'
-import store from './store'
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/auth' // get token from cookie
-import getPageTitle from '@/utils/get-page-title'
+import router from "./router"
+import store from "./store"
+import NProgress from "nprogress" // progress bar
+import "nprogress/nprogress.css" // progress bar style
+import { getToken } from "@/utils/auth" // get token from cookie
+import getPageTitle from "@/utils/get-page-title"
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login', '/register', '/findPassword'] // no redirect whitelist
+const whiteList = ["/login", "/register", "/findPassword"] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -20,9 +20,9 @@ router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
-    if (to.path === '/login') {
+    if (to.path === "/login") {
       // if is logged in, redirect to the home page
-      next({ path: '/' })
+      next({ path: "/" })
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
@@ -32,11 +32,11 @@ router.beforeEach(async(to, from, next) => {
       } else {
         // get user info
         // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-        await store.dispatch('user/getInfo')
-        const { menuList } = await store.dispatch('menu/getMenuByUser')
+        await store.dispatch("user/getInfo")
+        const { menuList } = await store.dispatch("menu/getMenuByUser")
 
         // generate accessible routes map based on roles
-        const accessRoutes = await store.dispatch('permission/generateRoutes', menuList)
+        const accessRoutes = await store.dispatch("permission/generateRoutes", menuList)
 
         // dynamically add accessible routes
         router.addRoutes(accessRoutes)

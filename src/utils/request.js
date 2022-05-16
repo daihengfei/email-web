@@ -1,10 +1,10 @@
-import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
-import store from '@/store'
-import { getToken, setToken } from '@/utils/auth'
+import axios from "axios"
+import { MessageBox, Message } from "element-ui"
+import store from "@/store"
+import { getToken, setToken } from "@/utils/auth"
 
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
   timeout: 250000
 })
 
@@ -12,10 +12,10 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     if (getToken()) {
-      config.headers['Authorization'] = getToken()
+      config.headers["Authorization"] = getToken()
     }
-    config.headers['Content-Type'] = 'application/json;charset=UTF-8'
-    config.headers['Access-Control-Allow-Origin'] = '*'
+    config.headers["Content-Type"] = "application/json;charset=UTF-8"
+    config.headers["Access-Control-Allow-Origin"] = "*"
     return config
   },
   error => {
@@ -27,54 +27,54 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    const res = response.data;
+    const res = response.data
     if (res.code !== 200) {
       Message({
-        message: res.message || 'Error',
-        type: 'error',
+        message: res.message || "Error",
+        type: "error",
         duration: 5 * 1000
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login
-        MessageBox.confirm('您已注销，可以取消以停留在此页面，或再次登录', '确认注销', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
-          type: 'warning'
+        MessageBox.confirm("您已注销，可以取消以停留在此页面，或再次登录", "确认注销", {
+          confirmButtonText: "重新登录",
+          cancelButtonText: "取消",
+          type: "warning"
         }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
+          store.dispatch("user/resetToken").then(() => {
             location.reload()
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.message || "Error"))
     } else {
-      const token = response.headers['authorization'];
-      if (token !== undefined && token !== null && token !== '') {
-        setToken(token);
+      const token = response.headers["authorization"]
+      if (token !== undefined && token !== null && token !== "") {
+        setToken(token)
       }
       return res
     }
   },
   error => {
-    const status = error.response.status;
+    const status = error.response.status
     if (status === 401 || status === 403) {
-      MessageBox.confirm('您已注销，可以取消以停留在此页面，或再次登录', '确认注销', {
-        confirmButtonText: '重新登录',
-        cancelButtonText: '取消',
-        type: 'warning'
+      MessageBox.confirm("您已注销，可以取消以停留在此页面，或再次登录", "确认注销", {
+        confirmButtonText: "重新登录",
+        cancelButtonText: "取消",
+        type: "warning"
       }).then(() => {
-        store.dispatch('user/resetToken').then(() => {
+        store.dispatch("user/resetToken").then(() => {
           location.reload()
         })
       })
     } else if (status === 404) {
-      Message.error('请求资源不存在');
+      Message.error("请求资源不存在")
     } else if (status === 500) {
-      Message.error('服务器内部错误');
+      Message.error("服务器内部错误")
     } else {
-      Message.error('未知错误');
+      Message.error("未知错误")
     }
     // return Promise.reject(error)
   }

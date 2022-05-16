@@ -10,9 +10,11 @@
     "preview": "set NODE_OPTIONS=--openssl-legacy-provider &node build/index.js --preview",
     "svgo": "set NODE_OPTIONS=--openssl-legacy-provider &svgo -f src/icons/svg --config=src/icons/svgo.yml",
     "lint": "set NODE_OPTIONS=--openssl-legacy-provider &eslint --ext .js,.vue src",
+    "lint-fix": "set NODE_OPTIONS=--openssl-legacy-provider &eslint --fix --ext .js --ext .jsx --ext .vue src",
     "test:ci": "set NODE_OPTIONS=--openssl-legacy-provider &npm run lint && npm run test:unit"
   },
   "dependencies": {
+    "af-table-column": "^1.0.3",
     "axios": "0.26.1",
     "core-js": "3.6.5",
     "crypto-js": "^4.1.1",

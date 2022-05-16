@@ -5,8 +5,8 @@ import {
   deleteMenu,
   queryAllMenu,
   queryMenuByUser
-} from '@/api/system/menu';
-import { Message } from 'element-ui'
+} from "@/api/system/menu"
+import { Message } from "element-ui"
 
 const state = {
   menuList: [],
@@ -39,8 +39,8 @@ const actions = {
       addMenu(params).then(response => {
         if (response.code === 200) {
           Message({
-            message: '新增成功',
-            type: 'success'
+            message: "新增成功",
+            type: "success"
           })
         }
         resolve(response)
@@ -55,8 +55,8 @@ const actions = {
       updateMenu(params).then(response => {
         if (response.code === 200) {
           Message({
-            message: '修改成功',
-            type: 'success'
+            message: "修改成功",
+            type: "success"
           })
         }
         resolve(response)
@@ -71,8 +71,8 @@ const actions = {
       deleteMenu(params).then(response => {
         if (response.code === 200) {
           Message({
-            message: '删除成功',
-            type: 'success'
+            message: "删除成功",
+            type: "success"
           })
         }
         resolve(response)
@@ -98,7 +98,7 @@ const actions = {
       queryMenuByUser(params).then(response => {
         const data = JSON.parse(response.data)
         const { menuList } = data
-        commit('SET_MENU_TREE_BY_USER', menuList)
+        commit("SET_MENU_TREE_BY_USER", menuList)
         resolve(data)
       }).catch(error => {
         reject(error)

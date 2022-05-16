@@ -118,17 +118,17 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
-import { checkEmail, checkPassWord, checkConfirmPassword } from '@/utils/validate'
+import { Message } from "element-ui"
+import { checkEmail, checkPassWord, checkConfirmPassword } from "@/utils/validate"
 
 export default {
-  name: 'Register',
+  name: "Register",
   data() {
     const chkEmail = (rule, value, callback) => {
       if (!value) {
-        callback(new Error('请输入邮箱'))
+        callback(new Error("请输入邮箱"))
       } else if (!checkEmail(value)) {
-        callback(new Error('请输入正确的邮箱'))
+        callback(new Error("请输入正确的邮箱"))
       } else {
         callback()
       }
@@ -136,9 +136,9 @@ export default {
 
     const chkPassword = (rule, value, callback) => {
       if (!value) {
-        callback(new Error('请输入密码'))
+        callback(new Error("请输入密码"))
       } else if (!checkPassWord(value)) {
-        callback(new Error('密码长度为8-32位，且包含数字、大写字母、小写字母、特殊字符任意三种'))
+        callback(new Error("密码长度为8-32位，且包含数字、大写字母、小写字母、特殊字符任意三种"))
       } else {
         callback()
       }
@@ -146,9 +146,9 @@ export default {
 
     const chkConfirmPassword = (rule, value, callback) => {
       if (!value) {
-        callback(new Error('请输入密码'))
+        callback(new Error("请输入密码"))
       } else if (!checkConfirmPassword(value, this.registerForm.password)) {
-        callback(new Error('两次输入的密码不一致'))
+        callback(new Error("两次输入的密码不一致"))
       } else {
         callback()
       }
@@ -156,35 +156,35 @@ export default {
 
     return {
       registerForm: {
-        email: '',
-        username: '',
-        verCode: '',
-        password: '',
-        confirmPassword: ''
+        email: "",
+        username: "",
+        verCode: "",
+        password: "",
+        confirmPassword: ""
       },
       registerRules: {
         email: [
-          { required: true, validator: chkEmail, trigger: 'blur' }
+          { required: true, validator: chkEmail, trigger: "blur" }
         ],
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 16 个字符', trigger: 'blur' }
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 16 个字符", trigger: "blur" }
         ],
         verCode: [
-          { required: true, message: '请输入验证码', trigger: 'blur' }
+          { required: true, message: "请输入验证码", trigger: "blur" }
         ],
         password: [
-          { validator: chkPassword, trigger: ['blur', 'change'] },
-          { required: true, min: 8, max: 32, message: '长度在 8 到 32 个字符', trigger: ['blur', 'change'] }
+          { validator: chkPassword, trigger: ["blur", "change"] },
+          { required: true, min: 8, max: 32, message: "长度在 8 到 32 个字符", trigger: ["blur", "change"] }
         ],
         confirmPassword: [
-          { validator: chkConfirmPassword, trigger: ['blur', 'change'] },
-          { required: true, min: 8, max: 32, message: '长度在 8 到 32 个字符', trigger: ['blur', 'change'] }
+          { validator: chkConfirmPassword, trigger: ["blur", "change"] },
+          { required: true, min: 8, max: 32, message: "长度在 8 到 32 个字符", trigger: ["blur", "change"] }
         ]
       },
       isDisabled: false,
       loading: false,
-      passwordType: 'password',
+      passwordType: "password",
       redirect: undefined
     }
   },
@@ -200,10 +200,10 @@ export default {
   },
   methods: {
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = ""
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password"
       }
       this.$nextTick(() => {
         this.$refs.password.focus()
@@ -214,15 +214,15 @@ export default {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/register', this.registerForm).then(() => {
-            this.$router.push({ path: this.redirect || '/login' })
-            Message.info('注册成功。')
+          this.$store.dispatch("user/register", this.registerForm).then(() => {
+            this.$router.push({ path: this.redirect || "/login" })
+            Message.info("注册成功。")
             this.loading = false
           }).catch(() => {
             this.loading = false
           })
         } else {
-          console.log('提交失败')
+          console.log("提交失败")
           return false
         }
       })
@@ -231,12 +231,12 @@ export default {
     sendVerCode() {
       const email = this.registerForm.email
       if (checkEmail(email)) {
-        this.$store.dispatch('user/getVerCode', email).then(() => {
-          Message.info('验证码已发送。')
+        this.$store.dispatch("user/getVerCode", email).then(() => {
+          Message.info("验证码已发送。")
           this.turnOffSendButton(120)
         })
       } else {
-        Message.error('邮箱格式错误！')
+        Message.error("邮箱格式错误！")
       }
     },
 
@@ -249,11 +249,11 @@ export default {
       const countDown = setInterval(function() {
         if (count === 0) {
           that.isDisabled = false
-          sendButton.$el.innerHTML = '重新发送'
+          sendButton.$el.innerHTML = "重新发送"
           clearInterval(countDown)
         } else {
           that.isDisabled = true
-          sendButton.$el.innerHTML = count + '秒后可重新获取'
+          sendButton.$el.innerHTML = count + "秒后可重新获取"
         }
         count--
       }, 1000)

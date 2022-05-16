@@ -162,16 +162,16 @@ module.exports = {
       }
     }],
     'padded-blocks': [2, 'never'],
-    'quotes': [2, 'single', {
+    'quotes': [2, 'double', {
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
-    // 'semi': [2, 'never'],
-    'semi': 0,
+    'semi': [2, 'never'],
+    /*'semi': 0,
     'semi-spacing': [2, {
       'before': false,
       'after': true
-    }],
+    }],*/
     'space-before-blocks': [2, 'always'],
     'space-before-function-paren': [2, 'never'],
     'space-in-parens': [2, 'never'],

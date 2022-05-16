@@ -15,7 +15,7 @@ export function isExternal(path) {
  * @returns {Boolean}
  */
 export function validUsername(str) {
-  const valid_map = ['admin', 'editor']
+  const valid_map = ["admin", "editor"]
   return valid_map.indexOf(str.trim()) >= 0
 }
 
@@ -51,12 +51,12 @@ export function checkPassWord(str) {
     if (/\W/.test(str)) {
       modes++
     }
-    return modes > 2;
+    return modes > 2
   }
 }
 
 export function checkConfirmPassword(str1, str2) {
-  return str1 === str2;
+  return str1 === str2
 }
 
 export function checkPhone(str) {

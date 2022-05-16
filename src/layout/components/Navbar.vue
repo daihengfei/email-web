@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
+import { mapGetters } from "vuex"
+import Breadcrumb from "@/components/Breadcrumb"
+import Hamburger from "@/components/Hamburger"
 
 export default {
   components: {
@@ -37,16 +37,16 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'sidebar',
-      'avatar'
+      "sidebar",
+      "avatar"
     ])
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+      this.$store.dispatch("app/toggleSideBar")
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
+      await this.$store.dispatch("user/logout")
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }

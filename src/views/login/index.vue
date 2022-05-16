@@ -55,22 +55,22 @@
 <script>
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
       loginForm: {
-        username: 'admin',
-        password: 'Dhf19960130'
+        username: "admin",
+        password: "Dhf19960130"
       },
       loginRules: {
         username: [
-          { required: true, trigger: 'blur', message: '请输入用户名' },
-          { min: 3, max: 20, message: '长度在 3 到 16 个字符', trigger: 'blur' }
+          { required: true, trigger: "blur", message: "请输入用户名" },
+          { min: 3, max: 20, message: "长度在 3 到 16 个字符", trigger: "blur" }
         ],
-        password: [{ required: true, trigger: 'blur', message: '请输入密码' }]
+        password: [{ required: true, trigger: "blur", message: "请输入密码" }]
       },
       loading: false,
-      passwordType: 'password',
+      passwordType: "password",
       redirect: undefined
     }
   },
@@ -84,10 +84,10 @@ export default {
   },
   methods: {
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = ""
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password"
       }
       this.$nextTick(() => {
         this.$refs.password.focus()
@@ -97,14 +97,14 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+          this.$store.dispatch("user/login", this.loginForm).then(() => {
+            this.$router.push({ path: this.redirect || "/" })
             this.loading = false
           }).catch(() => {
             this.loading = false
           })
         } else {
-          console.log('提交失败')
+          console.log("提交失败")
           return false
         }
       })

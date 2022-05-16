@@ -1,9 +1,9 @@
-import { get, post } from '@/utils/request'
-import Encrypt from '@/utils/encrypt'
+import { get, post } from "@/utils/request"
+import Encrypt from "@/utils/encrypt"
 
 export async function login(data) {
   data = await passwordChanged(data)
-  return post('/login', data)
+  return post("/login", data)
 }
 
 export async function register(info) {
@@ -16,26 +16,26 @@ export async function register(info) {
     ...info,
     data: user
   }
-  return post('/user/register', info)
+  return post("/user/register", info)
 }
 
 export function getInfo(token) {
   const data = {
     token: token
   }
-  return get('/user/getUserInfo', data)
+  return get("/user/getUserInfo", data)
 }
 
 export function getSecretKey(email) {
-  return get('/user/getSecretKey', email)
+  return get("/user/getSecretKey", email)
 }
 
 export function logout(token) {
-  return post('/logout', token)
+  return post("/logout", token)
 }
 
 export function getVerCode(email) {
-  return get('/system/sendVerCode', email)
+  return get("/system/sendVerCode", email)
 }
 
 async function passwordChanged(data) {

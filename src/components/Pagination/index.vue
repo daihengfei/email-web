@@ -15,18 +15,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex"
 
-function getPageList() {
+function getPageList(limit) {
   let defaultPageList = [10, 30, 50, 100]
-  const newPage = Number(localStorage.getItem('pageSize') || 10)
-  defaultPageList.push(newPage)
+  defaultPageList.push(limit)
   defaultPageList = [...new Set(defaultPageList.sort((a, b) => a - b))]
   return defaultPageList
 }
 
 export default {
-  name: 'Pagination',
+  name: "Pagination",
   props: {
     total: {
       required: true,
@@ -47,16 +46,16 @@ export default {
     pageSizes: {
       type: Array,
       default() {
-        return getPageList()
+        return getPageList(this.limit)
       }
     },
     layout: {
       type: String,
-      default: 'sizes, prev, pager, next, jumper, ->, total'
+      default: "sizes, prev, pager, next, jumper, ->, total"
     },
     layoutMobile: {
       type: String,
-      default: 'prev, total, next, jumper'
+      default: "prev, total, next, jumper"
     },
     background: {
       type: Boolean,
@@ -88,7 +87,7 @@ export default {
       set(val) {
         if (this.tempCurrentPage !== val) {
           this.tempCurrentPage = val
-          this.$emit('update:page', val)
+          this.$emit("update:page", val)
         }
       }
     },
@@ -99,25 +98,25 @@ export default {
       set(val) {
         if (this.tempPageSize !== val) {
           this.tempPageSize = val
-          this.$emit('update:limit', val)
+          this.$emit("update:limit", val)
         }
       }
     },
-    ...mapGetters(['device'])
+    ...mapGetters(["device"])
   },
   methods: {
     resetPagination() {
-      this.pageSize = 10
+      this.pageSize = this.limit
       this.currentPage = 1
     },
     handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
+      this.$emit("pagination", { page: this.currentPage, limit: val })
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
     },
     handleCurrentChange(val) {
-      this.$emit('pagination', { page: val, limit: this.pageSize })
+      this.$emit("pagination", { page: val, limit: this.pageSize })
       if (this.autoScroll) {
         scrollTo(0, 800)
       }

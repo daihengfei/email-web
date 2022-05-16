@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'email web',
+  title: "email web",
 
   /**
    * @type {boolean} true | false

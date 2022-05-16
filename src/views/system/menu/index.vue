@@ -130,13 +130,13 @@
 </template>
 
 <script>
-import { generateChildrenMenu } from '@/utils/util';
+import { generateChildrenMenu } from "@/utils/util"
 
 export default {
-  name: 'MenuManage',
+  name: "MenuManage",
   data() {
     return {
-      filterText: '',
+      filterText: "",
       menuList: [],
       top: 0,
       left: 0,
@@ -148,28 +148,28 @@ export default {
       saveButtonVisible: false,
       updateButtonVisible: true,
       defaultProps: {
-        children: 'children',
-        label: 'menuName'
+        children: "children",
+        label: "menuName"
       },
       treeNode: [],
       treeData: [],
       menuForm: {
-        menuName: '',
-        menuParentId: '',
-        menuUrl: '',
-        menuIcon: '',
-        id: '',
+        menuName: "",
+        menuParentId: "",
+        menuUrl: "",
+        menuIcon: "",
+        id: "",
         enabled: false
       },
       menuRules: {
         menuName: [
-          { required: true, message: '请输入菜单名称', trigger: 'blur' }
+          { required: true, message: "请输入菜单名称", trigger: "blur" }
         ],
         menuUrl: [
-          { required: true, message: '请输入菜单URL', trigger: 'blur' }
+          { required: true, message: "请输入菜单URL", trigger: "blur" }
         ],
         menuIcon: [
-          { required: true, message: '请输入菜单图标', trigger: 'blur' }
+          { required: true, message: "请输入菜单图标", trigger: "blur" }
         ]
       }
     }
@@ -179,20 +179,20 @@ export default {
     menuParentList() {
       return this.menuList.filter(function(data) {
         // 只返回id是偶数的
-        return data.menuParentId === '0' && data.id !== '1';
+        return data.menuParentId === "0" && data.id !== "1"
       })
     }
   },
 
   watch: {
     filterText(val) {
-      this.$refs.menuTree.filter(val);
+      this.$refs.menuTree.filter(val)
     },
     visible(value) {
       if (value) {
-        document.body.addEventListener('click', this.closeMenu)
+        document.body.addEventListener("click", this.closeMenu)
       } else {
-        document.body.removeEventListener('click', this.closeMenu)
+        document.body.removeEventListener("click", this.closeMenu)
       }
     }
   },
@@ -201,21 +201,21 @@ export default {
   },
   methods: {
     async getMenuList() {
-      this.$store.dispatch('menu/getAllMenu').then(async(res) => {
-        this.menuList = generateChildrenMenu(res.menuList);
+      this.$store.dispatch("menu/getAllMenu").then(async(res) => {
+        this.menuList = generateChildrenMenu(res.menuList)
       })
     },
 
     handleCreateMenu() {
       this.$refs.menuForm.validate(valid => {
         if (valid) {
-          this.loading = true;
-          this.$store.dispatch('menu/addMenu', this.menuForm).then(async() => {
-            this.loading = false;
-            this.menuFormVisible = false;
-            this.treeVisible = false;
-            await this.getMenuList();
-            this.treeVisible = true;
+          this.loading = true
+          this.$store.dispatch("menu/addMenu", this.menuForm).then(async() => {
+            this.loading = false
+            this.menuFormVisible = false
+            this.treeVisible = false
+            await this.getMenuList()
+            this.treeVisible = true
           }).catch(() => {
             this.loading = false
           })
@@ -227,13 +227,13 @@ export default {
       debugger
       this.$refs.menuForm.validate(valid => {
         if (valid) {
-          this.loading = true;
-          this.$store.dispatch('menu/updateMenu', this.menuForm).then(async() => {
-            this.loading = false;
-            this.menuFormVisible = false;
-            this.treeVisible = false;
-            await this.getMenuList();
-            this.treeVisible = true;
+          this.loading = true
+          this.$store.dispatch("menu/updateMenu", this.menuForm).then(async() => {
+            this.loading = false
+            this.menuFormVisible = false
+            this.treeVisible = false
+            await this.getMenuList()
+            this.treeVisible = true
           }).catch(() => {
             this.loading = false
           })
@@ -242,19 +242,19 @@ export default {
     },
 
     filterNode(value, data) {
-      if (!value) return true;
-      return data.menuName.indexOf(value) !== -1;
+      if (!value) return true
+      return data.menuName.indexOf(value) !== -1
     },
 
     handleNodeClick(data, node, obj) {
       this.visible = false
-      this.saveButtonVisible = false;
-      this.menuFormDisable = true;
-      this.menuForm = data;
+      this.saveButtonVisible = false
+      this.menuFormDisable = true
+      this.menuForm = data
       if (this.menuFormVisible) {
-        this.$refs.menuForm.clearValidate();
+        this.$refs.menuForm.clearValidate()
       } else {
-        this.menuFormVisible = true;
+        this.menuFormVisible = true
       }
     },
 
@@ -277,7 +277,7 @@ export default {
       this.top = top
       this.treeNode = node
       this.treeData = data
-      this.visible = true;
+      this.visible = true
     },
 
     closeMenu() {
@@ -289,32 +289,32 @@ export default {
     },
 
     createMenu(treeData) {
-      this.updateButtonVisible = true;
-      this.saveButtonVisible = true;
-      this.menuFormDisable = false;
+      this.updateButtonVisible = true
+      this.saveButtonVisible = true
+      this.menuFormDisable = false
       if (this.menuFormVisible) {
-        this.$refs.menuForm.resetFields();
+        this.$refs.menuForm.resetFields()
       }
       this.menuForm = {
-        menuName: '',
+        menuName: "",
         menuParentId: treeData.id,
-        menuUrl: '',
-        menuIcon: '',
-        id: '',
+        menuUrl: "",
+        menuIcon: "",
+        id: "",
         enabled: true
       }
-      this.menuFormVisible = true;
+      this.menuFormVisible = true
     },
 
     updateMenu(treeData) {
-      this.updateButtonVisible = false;
-      this.saveButtonVisible = true;
-      this.menuFormDisable = false;
-      this.menuForm = treeData;
+      this.updateButtonVisible = false
+      this.saveButtonVisible = true
+      this.menuFormDisable = false
+      this.menuForm = treeData
       if (this.menuFormVisible) {
-        this.$refs.menuForm.clearValidate();
+        this.$refs.menuForm.clearValidate()
       } else {
-        this.menuFormVisible = true;
+        this.menuFormVisible = true
       }
     },
 
@@ -322,11 +322,11 @@ export default {
       const data = {
         menuId: treeData.id
       }
-      this.$store.dispatch('menu/deleteMenu', data).then(async() => {
-        this.menuFormVisible = false;
-        this.treeVisible = false;
-        await this.getMenuList();
-        this.treeVisible = true;
+      this.$store.dispatch("menu/deleteMenu", data).then(async() => {
+        this.menuFormVisible = false
+        this.treeVisible = false
+        await this.getMenuList()
+        this.treeVisible = true
       }).catch(() => {
         this.loading = false
       })

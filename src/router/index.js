@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue"
+import Router from "vue-router"
 
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/layout'
+import Layout from "@/layout"
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -32,45 +32,45 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path: '/redirect',
+    path: "/redirect",
     component: Layout,
     hidden: true,
     children: [
       {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index')
+        path: "/redirect/:path(.*)",
+        component: () => import("@/views/redirect/index")
       }
     ]
   },
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
+    path: "/login",
+    component: () => import("@/views/login/index"),
     hidden: true
   },
 
   {
-    path: '/register',
-    component: () => import('@/views/login/Register'),
+    path: "/register",
+    component: () => import("@/views/login/Register"),
     hidden: true
   },
 
   {
-    path: '/404',
-    component: () => import('@/views/404'),
+    path: "/404",
+    component: () => import("@/views/404"),
     hidden: true
   },
 
   {
-    path: '/',
+    path: "/",
     component: Layout,
-    redirect: '/dashboard',
+    redirect: "/dashboard",
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      path: "dashboard",
+      name: "Dashboard",
+      component: () => import("@/views/dashboard/index"),
       meta: {
-        title: '首页',
-        icon: 'dashboard',
+        title: "首页",
+        icon: "dashboard",
         affix: true
       }
     }]
@@ -118,81 +118,81 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/nested',
+    path: "/nested",
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
+    redirect: "/nested/menu1",
+    name: "Nested",
     meta: {
-      title: 'Nested',
-      icon: 'nested'
+      title: "Nested",
+      icon: "nested"
     },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: {title: 'Menu1'},
+        path: "menu1",
+        component: () => import("@/views/nested/menu1/index"), // Parent router-view
+        name: "Menu1",
+        meta: { title: "Menu1" },
         children: [
           {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: {title: 'Menu1-1'}
+            path: "menu1-1",
+            component: () => import("@/views/nested/menu1/menu1-1"),
+            name: "Menu1-1",
+            meta: { title: "Menu1-1" }
           },
           {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: {title: 'Menu1-2'},
+            path: "menu1-2",
+            component: () => import("@/views/nested/menu1/menu1-2"),
+            name: "Menu1-2",
+            meta: { title: "Menu1-2" },
             children: [
               {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: {title: 'Menu1-2-1'}
+                path: "menu1-2-1",
+                component: () => import("@/views/nested/menu1/menu1-2/menu1-2-1"),
+                name: "Menu1-2-1",
+                meta: { title: "Menu1-2-1" }
               },
               {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: {title: 'Menu1-2-2'}
+                path: "menu1-2-2",
+                component: () => import("@/views/nested/menu1/menu1-2/menu1-2-2"),
+                name: "Menu1-2-2",
+                meta: { title: "Menu1-2-2" }
               }
             ]
           },
           {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: {title: 'Menu1-3'}
+            path: "menu1-3",
+            component: () => import("@/views/nested/menu1/menu1-3"),
+            name: "Menu1-3",
+            meta: { title: "Menu1-3" }
           }
         ]
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: {title: 'menu2'}
+        path: "menu2",
+        component: () => import("@/views/nested/menu2/index"),
+        meta: { title: "menu2" }
       }
     ]
   },
 
   {
-    path: 'external-link',
+    path: "external-link",
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: {title: 'External Link', icon: 'link'}
+        path: "https://panjiachen.github.io/vue-element-admin-site/#/",
+        meta: { title: "External Link", icon: "link" }
       }
     ]
   },
 
   // 404 page must be placed at the end !!!
-  {path: '*', redirect: '/404', hidden: true}
+  { path: "*", redirect: "/404", hidden: true }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
 

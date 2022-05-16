@@ -1,7 +1,7 @@
-import { constantRoutes } from '@/router'
+import { constantRoutes } from "@/router"
 /* Layout */
-import Layout from '@/layout'
-import { generateChildrenMenu } from '@/utils/util';
+import Layout from "@/layout"
+import { generateChildrenMenu } from "@/utils/util"
 
 /**
  * Filter asynchronous routing tables by recursion
@@ -11,7 +11,7 @@ export function filterAsyncRoutes(menuList) {
   const res = []
 
   menuList.forEach(menu => {
-    if (menu.menuUrl !== '/dashboard') {
+    if (menu.menuUrl !== "/dashboard") {
       if (menu.children) {
         const children = []
         menu.children.forEach(route => { // 二级菜单需匹配页面
@@ -31,7 +31,7 @@ export function filterAsyncRoutes(menuList) {
           path: menu.menuUrl,
           component: Layout,
           alwaysShow: true,
-          redirect: 'noRedirect',
+          redirect: "noRedirect",
           meta: {
             title: menu.menuName,
             icon: menu.menuIcon
@@ -54,7 +54,7 @@ export function filterAsyncRoutes(menuList) {
     }
   })
 
-  res.push({ path: '*', redirect: '/404', hidden: true })
+  res.push({ path: "*", redirect: "/404", hidden: true })
   return res
 }
 
@@ -73,9 +73,9 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, menuList) {
     return new Promise(resolve => {
-      const newMenuList = generateChildrenMenu(menuList);
+      const newMenuList = generateChildrenMenu(menuList)
       const accessedRoutes = filterAsyncRoutes(newMenuList)
-      commit('SET_ROUTES', accessedRoutes)
+      commit("SET_ROUTES", accessedRoutes)
       resolve(accessedRoutes)
     })
   }

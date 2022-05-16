@@ -1,12 +1,12 @@
-import { login, register, getVerCode, logout, getInfo } from '@/api/user'
-import { getToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
-import { Message } from 'element-ui'
+import { login, register, getVerCode, logout, getInfo } from "@/api/user"
+import { getToken, removeToken } from "@/utils/auth"
+import { resetRouter } from "@/router"
+import { Message } from "element-ui"
 
 const getDefaultState = () => {
   return {
-    name: '',
-    avatar: '',
+    name: "",
+    avatar: "",
     roles: []
   }
 }
@@ -36,13 +36,13 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         if (response.code === 200) {
           Message({
-            message: '登录成功',
-            type: 'success'
+            message: "登录成功",
+            type: "success"
           })
         } else {
           Message({
-            message: '登录失败',
-            type: 'error'
+            message: "登录失败",
+            type: "error"
           })
         }
         resolve()
@@ -85,7 +85,7 @@ const actions = {
         let { data } = response
 
         if (!data) {
-          reject('验证失败，请重新登录')
+          reject("验证失败，请重新登录")
         }
 
         data = JSON.parse(data)
@@ -93,12 +93,12 @@ const actions = {
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
-          reject('角色不能为空')
+          reject("角色不能为空")
         }
 
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', username)
-        commit('SET_AVATAR', avatar)
+        commit("SET_ROLES", roles)
+        commit("SET_NAME", username)
+        commit("SET_AVATAR", avatar)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -114,9 +114,9 @@ const actions = {
         resetRouter()
         Message({
           message: response.data,
-          type: 'success'
+          type: "success"
         })
-        commit('RESET_STATE')
+        commit("RESET_STATE")
         // this.$store.dispatch('tagsView/delAllViews', null, { root: true })
         resolve()
       }).catch(error => {
@@ -129,7 +129,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
-      commit('RESET_STATE')
+      commit("RESET_STATE")
       resolve()
     })
   }
