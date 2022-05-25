@@ -1,7 +1,7 @@
-import { constantRoutes } from "@/router"
+import {constantRoutes} from "@/router"
 /* Layout */
 import Layout from "@/layout"
-import { generateChildrenMenu } from "@/utils/util"
+import {generateChildrenMenu} from "@/utils/util"
 
 /**
  * Filter asynchronous routing tables by recursion
@@ -54,7 +54,7 @@ export function filterAsyncRoutes(menuList) {
     }
   })
 
-  res.push({ path: "*", redirect: "/404", hidden: true })
+  res.push({path: "*", redirect: "/404", hidden: true})
   return res
 }
 
@@ -71,7 +71,7 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, menuList) {
+  generateRoutes({commit}, menuList) {
     return new Promise(resolve => {
       const newMenuList = generateChildrenMenu(menuList)
       const accessedRoutes = filterAsyncRoutes(newMenuList)

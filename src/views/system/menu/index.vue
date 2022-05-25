@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { generateChildrenMenu } from "@/utils/util"
+import {generateChildrenMenu} from "@/utils/util"
 
 export default {
   name: "MenuManage",
@@ -163,13 +163,13 @@ export default {
       },
       menuRules: {
         menuName: [
-          { required: true, message: "请输入菜单名称", trigger: "blur" }
+          {required: true, message: "请输入菜单名称", trigger: "blur"}
         ],
         menuUrl: [
-          { required: true, message: "请输入菜单URL", trigger: "blur" }
+          {required: true, message: "请输入菜单URL", trigger: "blur"}
         ],
         menuIcon: [
-          { required: true, message: "请输入菜单图标", trigger: "blur" }
+          {required: true, message: "请输入菜单图标", trigger: "blur"}
         ]
       }
     }

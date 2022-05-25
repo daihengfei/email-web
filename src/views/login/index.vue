@@ -64,10 +64,10 @@ export default {
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", message: "请输入用户名" },
-          { min: 3, max: 20, message: "长度在 3 到 16 个字符", trigger: "blur" }
+          {required: true, trigger: "blur", message: "请输入用户名"},
+          {min: 3, max: 20, message: "长度在 3 到 16 个字符", trigger: "blur"}
         ],
-        password: [{ required: true, trigger: "blur", message: "请输入密码" }]
+        password: [{required: true, trigger: "blur", message: "请输入密码"}]
       },
       loading: false,
       passwordType: "password",
@@ -98,7 +98,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch("user/login", this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || "/" })
+            this.$router.push({path: this.redirect || "/"})
             this.loading = false
           }).catch(() => {
             this.loading = false

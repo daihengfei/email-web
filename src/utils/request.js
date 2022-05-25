@@ -1,7 +1,7 @@
 import axios from "axios"
-import { MessageBox, Message } from "element-ui"
+import {MessageBox, Message} from "element-ui"
 import store from "@/store"
-import { getToken, setToken } from "@/utils/auth"
+import {getToken, setToken} from "@/utils/auth"
 
 const service = axios.create({
   baseURL: "/api",
@@ -83,7 +83,7 @@ service.interceptors.response.use(
 const get = (url, data) => {
   return new Promise((resolve, reject) => {
     service
-      .get(url, { params: data })
+      .get(url, {params: data})
       .then((res) => {
         resolve(res)
       })
@@ -95,7 +95,7 @@ const get = (url, data) => {
 const deleter = (url, data) => {
   return new Promise((resolve, reject) => {
     service
-      .delete(url, { params: data })
+      .delete(url, {params: data})
       .then((res) => {
         resolve(res)
       })
@@ -128,5 +128,5 @@ const put = (url, data) => {
       })
   })
 }
-export { get, post, deleter, put }
+export {get, post, deleter, put}
 // export default service

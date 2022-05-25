@@ -6,7 +6,7 @@ import {
   queryAllMenu,
   queryMenuByUser
 } from "@/api/system/menu"
-import { Message } from "element-ui"
+import {Message} from "element-ui"
 
 const state = {
   menuList: [],
@@ -24,7 +24,7 @@ const mutations = {
 
 const actions = {
   // 获取菜单列表
-  getMenu({ commit }, params) {
+  getMenu({commit}, params) {
     return new Promise((resolve, reject) => {
       queryMenu(params).then(response => {
         resolve(response)
@@ -34,7 +34,7 @@ const actions = {
     })
   },
   // 新增菜单
-  addMenu({ commit }, params) {
+  addMenu({commit}, params) {
     return new Promise((resolve, reject) => {
       addMenu(params).then(response => {
         if (response.code === 200) {
@@ -50,7 +50,7 @@ const actions = {
     })
   },
   // 修改菜单
-  updateMenu({ commit }, params) {
+  updateMenu({commit}, params) {
     return new Promise((resolve, reject) => {
       updateMenu(params).then(response => {
         if (response.code === 200) {
@@ -66,7 +66,7 @@ const actions = {
     })
   },
   // 删除菜单
-  deleteMenu({ commit }, params) {
+  deleteMenu({commit}, params) {
     return new Promise((resolve, reject) => {
       deleteMenu(params).then(response => {
         if (response.code === 200) {
@@ -82,7 +82,7 @@ const actions = {
     })
   },
   // 获取所有菜单
-  getAllMenu({ commit }) {
+  getAllMenu({commit}) {
     return new Promise((resolve, reject) => {
       queryAllMenu().then(response => {
         const data = JSON.parse(response.data)
@@ -93,11 +93,11 @@ const actions = {
     })
   },
   // 获取用户菜单根据用户
-  getMenuByUser({ commit }, params) {
+  getMenuByUser({commit}, params) {
     return new Promise((resolve, reject) => {
       queryMenuByUser(params).then(response => {
         const data = JSON.parse(response.data)
-        const { menuList } = data
+        const {menuList} = data
         commit("SET_MENU_TREE_BY_USER", menuList)
         resolve(data)
       }).catch(error => {

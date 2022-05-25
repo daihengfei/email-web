@@ -1,12 +1,12 @@
-'use strict'
-const path = require('path')
-const defaultSettings = require('./src/settings.js')
+"use strict"
+const path = require("path")
+const defaultSettings = require("./src/settings.js")
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Admin Template' // page title
+const name = defaultSettings.title || "vue Admin Template" // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -24,10 +24,10 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
-  outputDir: 'dist',
-  assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  publicPath: "/",
+  outputDir: "dist",
+  assetsDir: "static",
+  lintOnSave: process.env.NODE_ENV === "development",
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -37,7 +37,7 @@ module.exports = {
       errors: true
     },
     proxy: {
-      '/api': {
+      "/api": {
         // 以 “/api” 开头的 代理到 下边的 target 属性 的值 中
         // target: 'http://49.233.123.79:8085/',
         target: process.env.VUE_APP_BASE_API,
@@ -45,7 +45,7 @@ module.exports = {
         ws: true, // 是否启用websockets
         pathRewrite: {
           // 路径重写
-          '^/api': '/email' // 用'/api'代替target里面的地址,比如我要调用'http://40.00.100.100:3002/user/add'，直接写'http://127.0.0.1:8080/user/add'
+          "^/api": "/email" // 用'/api'代替target里面的地址,比如我要调用'http://40.00.100.100:3002/user/add'，直接写'http://127.0.0.1:8080/user/add'
         }
       }
     }
@@ -55,41 +55,41 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src')
+        "@": resolve("src")
       }
     }
   },
   chainWebpack(config) {
-    config.plugin('preload').tap(() => [
+    config.plugin("preload").tap(() => [
       {
-        rel: 'preload',
+        rel: "preload",
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
-        include: 'initial'
+        include: "initial"
       }
     ])
 
-    config.plugins.delete('prefetch')
+    config.plugins.delete("prefetch")
 
     config.module
-      .rule('svg')
-      .exclude.add(resolve('src/icons'))
+      .rule("svg")
+      .exclude.add(resolve("src/icons"))
       .end()
     config.module
-      .rule('icons')
+      .rule("icons")
       .test(/\.svg$/)
-      .include.add(resolve('src/icons'))
+      .include.add(resolve("src/icons"))
       .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: "icon-[name]"
       })
       .end()
 
     config.module
-      .rule('vue')
-      .use('vue-loader')
-      .loader('vue-loader')
+      .rule("vue")
+      .use("vue-loader")
+      .loader("vue-loader")
       .tap(options => {
         options.compilerOptions.preserveWhitespace = true
         return options
@@ -97,34 +97,34 @@ module.exports = {
       .end()
 
     config
-      .when(process.env.NODE_ENV !== 'development',
+      .when(process.env.NODE_ENV !== "development",
         config => {
           config
-            .plugin('ScriptExtHtmlWebpackPlugin')
-            .after('html')
-            .use('script-ext-html-webpack-plugin', [{
+            .plugin("ScriptExtHtmlWebpackPlugin")
+            .after("html")
+            .use("script-ext-html-webpack-plugin", [{
             // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
           config
             .optimization.splitChunks({
-              chunks: 'all',
+              chunks: "all",
               cacheGroups: {
                 libs: {
-                  name: 'chunk-libs',
+                  name: "chunk-libs",
                   test: /[\\/]node_modules[\\/]/,
                   priority: 10,
-                  chunks: 'initial' // only package third parties that are initially dependent
+                  chunks: "initial" // only package third parties that are initially dependent
                 },
                 elementUI: {
-                  name: 'chunk-elementUI', // split elementUI into a single package
+                  name: "chunk-elementUI", // split elementUI into a single package
                   priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
                   test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
                 },
                 commons: {
-                  name: 'chunk-commons',
-                  test: resolve('src/components'), // can customize your rules
+                  name: "chunk-commons",
+                  test: resolve("src/components"), // can customize your rules
                   minChunks: 3, //  minimum common number
                   priority: 5,
                   reuseExistingChunk: true
@@ -132,7 +132,7 @@ module.exports = {
               }
             })
 
-          config.optimization.runtimeChunk('single')
+          config.optimization.runtimeChunk("single")
         }
       )
   }

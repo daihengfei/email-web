@@ -118,8 +118,8 @@
 </template>
 
 <script>
-import { Message } from "element-ui"
-import { checkEmail, checkPassWord, checkConfirmPassword } from "@/utils/validate"
+import {Message} from "element-ui"
+import {checkEmail, checkPassWord, checkConfirmPassword} from "@/utils/validate"
 
 export default {
   name: "Register",
@@ -164,22 +164,22 @@ export default {
       },
       registerRules: {
         email: [
-          { required: true, validator: chkEmail, trigger: "blur" }
+          {required: true, validator: chkEmail, trigger: "blur"}
         ],
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 16 个字符", trigger: "blur" }
+          {required: true, message: "请输入用户名", trigger: "blur"},
+          {min: 3, max: 5, message: "长度在 3 到 16 个字符", trigger: "blur"}
         ],
         verCode: [
-          { required: true, message: "请输入验证码", trigger: "blur" }
+          {required: true, message: "请输入验证码", trigger: "blur"}
         ],
         password: [
-          { validator: chkPassword, trigger: ["blur", "change"] },
-          { required: true, min: 8, max: 32, message: "长度在 8 到 32 个字符", trigger: ["blur", "change"] }
+          {validator: chkPassword, trigger: ["blur", "change"]},
+          {required: true, min: 8, max: 32, message: "长度在 8 到 32 个字符", trigger: ["blur", "change"]}
         ],
         confirmPassword: [
-          { validator: chkConfirmPassword, trigger: ["blur", "change"] },
-          { required: true, min: 8, max: 32, message: "长度在 8 到 32 个字符", trigger: ["blur", "change"] }
+          {validator: chkConfirmPassword, trigger: ["blur", "change"]},
+          {required: true, min: 8, max: 32, message: "长度在 8 到 32 个字符", trigger: ["blur", "change"]}
         ]
       },
       isDisabled: false,
@@ -215,7 +215,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch("user/register", this.registerForm).then(() => {
-            this.$router.push({ path: this.redirect || "/login" })
+            this.$router.push({path: this.redirect || "/login"})
             Message.info("注册成功。")
             this.loading = false
           }).catch(() => {

@@ -1,4 +1,4 @@
-import { get, post } from "@/utils/request"
+import {get, post} from "@/utils/request"
 import Encrypt from "@/utils/encrypt"
 
 export async function login(data) {

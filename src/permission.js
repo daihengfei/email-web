@@ -2,10 +2,10 @@ import router from "./router"
 import store from "./store"
 import NProgress from "nprogress" // progress bar
 import "nprogress/nprogress.css" // progress bar style
-import { getToken } from "@/utils/auth" // get token from cookie
+import {getToken} from "@/utils/auth" // get token from cookie
 import getPageTitle from "@/utils/get-page-title"
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({showSpinner: false}) // NProgress Configuration
 
 const whiteList = ["/login", "/register", "/findPassword"] // no redirect whitelist
 
@@ -22,7 +22,7 @@ router.beforeEach(async(to, from, next) => {
   if (hasToken) {
     if (to.path === "/login") {
       // if is logged in, redirect to the home page
-      next({ path: "/" })
+      next({path: "/"})
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
@@ -33,7 +33,7 @@ router.beforeEach(async(to, from, next) => {
         // get user info
         // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
         await store.dispatch("user/getInfo")
-        const { menuList } = await store.dispatch("menu/getMenuByUser")
+        const {menuList} = await store.dispatch("menu/getMenuByUser")
 
         // generate accessible routes map based on roles
         const accessRoutes = await store.dispatch("permission/generateRoutes", menuList)
@@ -43,7 +43,7 @@ router.beforeEach(async(to, from, next) => {
 
         // hack method to ensure that addRoutes is complete
         // set the replace: true, so the navigation will not leave a history record
-        next({ ...to, replace: true })
+        next({...to, replace: true})
       }
     }
   } else {

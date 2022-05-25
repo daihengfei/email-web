@@ -1,4 +1,4 @@
-import { get, post } from "@/utils/request"
+import {get, post} from "@/utils/request"
 
 export function queryMenu(params) {
   return get("/menu/findMenu", params)

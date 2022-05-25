@@ -23,8 +23,8 @@
         name="enabledSearch"
         auto-complete="off"
       >
-        <el-option :key="'0'" :value="'0'" label="未启用"/>
-        <el-option :key="'1'" :value="'1'" label="启用"/>
+        <el-option :key="'0'" :value="'0'" label="未启用" />
+        <el-option :key="'1'" :value="'1'" label="启用" />
       </el-select>
       <el-date-picker
         v-model="search.dateSearch"
@@ -145,30 +145,30 @@
     <transition name="el-fade-in-linear">
       <el-dialog :title="addPage.title" :visible.sync="addPage.dialogFormVisible">
         <el-steps :active="addPage.active" align-center finish-status="success">
-          <el-step title="用户信息"/>
-          <el-step title="用户授权"/>
-          <el-step title="确认信息"/>
+          <el-step title="用户信息" />
+          <el-step title="用户授权" />
+          <el-step title="确认信息" />
         </el-steps>
         <div v-show="addPage.active === 0" class="infoForm">
           <transition name="el-zoom-in-top">
             <el-form ref="addForm" :model="addPage.form" label-width="120px" size="small">
               <el-form-item label="显示名称" prop="displayName">
-                <el-input v-model="addPage.form.displayName" size="small" placeholder="请输入显示名称" maxlength="20"/>
+                <el-input v-model="addPage.form.displayName" size="small" placeholder="请输入显示名称" maxlength="20" />
               </el-form-item>
               <el-form-item label="邮箱" prop="userEmail">
-                <el-input v-model="addPage.form.userEmail" size="small" placeholder="请输入邮箱" maxlength="128"/>
+                <el-input v-model="addPage.form.userEmail" size="small" placeholder="请输入邮箱" maxlength="128" />
               </el-form-item>
               <el-form-item label="应用程序ID" prop="clientId">
-                <el-input v-model="addPage.form.clientId" size="small" placeholder="请输入应用程序ID" maxlength="128"/>
+                <el-input v-model="addPage.form.clientId" size="small" placeholder="请输入应用程序ID" maxlength="128" />
               </el-form-item>
               <el-form-item label="机密" prop="secretKey">
-                <el-input v-model="addPage.form.secretKey" size="small" placeholder="请输入机密" maxlength="128"/>
+                <el-input v-model="addPage.form.secretKey" size="small" placeholder="请输入机密" maxlength="128" />
               </el-form-item>
             </el-form>
           </transition>
         </div>
         <div v-show="addPage.actions === 1">
-          <iframe id="iframe" ref="iframe" scrolling="no" frameborder="0" style="position:absolute;top:80px;left: 120px;"/>
+          <iframe id="iframe" ref="iframe" scrolling="no" frameborder="0" style="position:absolute;top:80px;left: 120px;" />
         </div>
 
         <div slot="footer" class="dialog-footer">
@@ -343,7 +343,7 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(async () => {
+      }).then(async() => {
         deleteAccount(rows[index].id).then(res => {
           Message.success("删除成功")
           this.getAccountList()

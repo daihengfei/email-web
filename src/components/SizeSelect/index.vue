@@ -16,10 +16,10 @@ export default {
   data() {
     return {
       sizeOptions: [
-        { label: "Default", value: "default" },
-        { label: "Medium", value: "medium" },
-        { label: "Small", value: "small" },
-        { label: "Mini", value: "mini" }
+        {label: "Default", value: "default"},
+        {label: "Medium", value: "medium"},
+        {label: "Small", value: "small"},
+        {label: "Mini", value: "mini"}
       ]
     }
   },
@@ -42,7 +42,7 @@ export default {
       // In order to make the cached page re-rendered
       this.$store.dispatch("tagsView/delAllCachedViews", this.$route)
 
-      const { fullPath } = this.$route
+      const {fullPath} = this.$route
 
       this.$nextTick(() => {
         this.$router.replace({

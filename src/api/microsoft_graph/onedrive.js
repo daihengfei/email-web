@@ -1,4 +1,4 @@
-import { get } from "@/utils/request"
+import {get} from "@/utils/request"
 
 export function getFileList(accessToken, path) {
   return get(`https://graph.microsoft.com/v1.0/me/drive/root/${path}/children`, {

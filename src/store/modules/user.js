@@ -1,7 +1,7 @@
-import { login, register, getVerCode, logout, getInfo } from "@/api/user"
-import { getToken, removeToken } from "@/utils/auth"
-import { resetRouter } from "@/router"
-import { Message } from "element-ui"
+import {login, register, getVerCode, logout, getInfo} from "@/api/user"
+import {getToken, removeToken} from "@/utils/auth"
+import {resetRouter} from "@/router"
+import {Message} from "element-ui"
 
 const getDefaultState = () => {
   return {
@@ -30,10 +30,10 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
+  login({commit}, userInfo) {
+    const {username, password} = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({username: username.trim(), password: password}).then(response => {
         if (response.code === 200) {
           Message({
             message: "登录成功",
@@ -52,15 +52,15 @@ const actions = {
     })
   },
 
-  register({ commit }, userInfo) {
-    const { email, username, password, verCode } = userInfo
+  register({commit}, userInfo) {
+    const {email, username, password, verCode} = userInfo
     const data = {
       email: email,
       username: username,
       password: password
     }
     return new Promise((resolve, reject) => {
-      register({ data: data, vercode: verCode }).then(response => {
+      register({data: data, vercode: verCode}).then(response => {
         resolve()
       }).catch(error => {
         reject(error)
@@ -68,9 +68,9 @@ const actions = {
     })
   },
 
-  getVerCode({ commit }, email) {
+  getVerCode({commit}, email) {
     return new Promise((resolve, reject) => {
-      getVerCode({ email: email }).then(response => {
+      getVerCode({email: email}).then(response => {
         resolve()
       }).catch(error => {
         reject(error)
@@ -79,17 +79,17 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({commit, state}) {
     return new Promise((resolve, reject) => {
       getInfo(getToken()).then(response => {
-        let { data } = response
+        let {data} = response
 
         if (!data) {
           reject("验证失败，请重新登录")
         }
 
         data = JSON.parse(data)
-        const { roles, username, avatar } = data
+        const {roles, username, avatar} = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -107,7 +107,7 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
+  logout({commit, state}) {
     return new Promise((resolve, reject) => {
       logout().then((response) => {
         removeToken()
@@ -126,7 +126,7 @@ const actions = {
   },
 
   // remove token
-  resetToken({ commit }) {
+  resetToken({commit}) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
       commit("RESET_STATE")

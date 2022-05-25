@@ -31,7 +31,7 @@
 import ThemePicker from "@/components/ThemePicker"
 
 export default {
-  components: { ThemePicker },
+  components: {ThemePicker},
   data() {
     return {}
   },

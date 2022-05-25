@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import {mapGetters} from "vuex"
 
 function getPageList(limit) {
   let defaultPageList = [10, 30, 50, 100]
@@ -110,13 +110,13 @@ export default {
       this.currentPage = 1
     },
     handleSizeChange(val) {
-      this.$emit("pagination", { page: this.currentPage, limit: val })
+      this.$emit("pagination", {page: this.currentPage, limit: val})
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
     },
     handleCurrentChange(val) {
-      this.$emit("pagination", { page: val, limit: this.pageSize })
+      this.$emit("pagination", {page: val, limit: this.pageSize})
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
