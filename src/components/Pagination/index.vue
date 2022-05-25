@@ -109,6 +109,12 @@ export default {
       this.pageSize = this.limit
       this.currentPage = 1
     },
+
+    userChangePageSize() {
+      this.pageSize = this.limit
+      this.currentPage = 1
+    },
+
     handleSizeChange(val) {
       this.$emit("pagination", {page: this.currentPage, limit: val})
       if (this.autoScroll) {

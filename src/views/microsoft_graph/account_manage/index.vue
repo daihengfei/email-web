@@ -137,6 +137,7 @@
       </af-table-column>
     </el-table>
     <Pagination
+      ref="pagination"
       :total="pagination.total"
       :page.sync="pagination.listQuery.page"
       :limit.sync="pagination.listQuery.limit"
@@ -313,6 +314,7 @@ export default {
     searchClick() {
       this.pagination.listQuery.page = 1
       this.pagination.listQuery.limit = this.computedPageSize(this.table.height)
+      this.$refs.pagination.resetPagination()
       this.getAccountList()
     },
 
@@ -321,6 +323,9 @@ export default {
       this.search.userNameSearch = ""
       this.search.dateSearch = []
       this.search.enabledSearch = ""
+      this.pagination.listQuery.page = 1
+      this.pagination.listQuery.limit = this.computedPageSize(this.table.height)
+      this.$refs.pagination.resetPagination()
       this.searchClick()
     },
 
