@@ -78,6 +78,13 @@ const actions = {
       commit("SET_ROUTES", accessedRoutes)
       resolve(accessedRoutes)
     })
+  },
+
+  repalceRoute({commit}, route) {
+    return new Promise(resolve => {
+      commit("SET_ROUTES", route)
+      resolve(route)
+    })
   }
 }
 

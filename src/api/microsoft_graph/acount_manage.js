@@ -2,7 +2,7 @@ import {deleter, get, post} from "@/utils/request"
 
 export function getAccountList(data) {
   return get("/microsoft_graph/client_list", {
-    search: data
+    search: JSON.stringify(data)
   })
 }
 

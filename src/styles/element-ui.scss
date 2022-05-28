@@ -16,7 +16,29 @@
 }
 
 
-// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-loading-spinner{
+  background-image: url("../assets/loding/loading.gif") !important;
+  background-repeat: no-repeat !important;
+  background-size: 60px 60px !important;
+  height:100px !important;
+  width:100% !important;
+  background-position:center !important;
+  /*覆盖 element-ui  默认的 50%    因为此处设置了height:100%,所以不设置的话，会只显示一半，因为被top顶下去了*/
+  top:40% !important;
+}
+
+.el-loading-spinner .circular {
+  /*隐藏 之前  element-ui  默认的 loading 动画*/
+  display: none;
+
+}
+
+.el-loading-spinner .el-loading-text {
+  /*为了使得文字在loading图下面*/
+  margin: 85px 0 !important;
+}
+
+  // to fixed https://github.com/ElemeFE/element/issues/2461
 .el-dialog {
   transform: none;
   left: 0;
@@ -57,3 +79,5 @@
 .el-range-input{
   padding-top: 3px;
 }
+
+

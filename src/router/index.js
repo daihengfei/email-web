@@ -55,6 +55,12 @@ export const constantRoutes = [
   },
 
   {
+    path: "/auth",
+    component: () => import("@/views/microsoft_graph/auth/index"),
+    hidden: true
+  },
+
+  {
     path: "/404",
     component: () => import("@/views/404"),
     hidden: true
@@ -191,7 +197,7 @@ export const asyncRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: "history", // require service support
   scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })

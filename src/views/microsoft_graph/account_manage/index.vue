@@ -45,8 +45,10 @@
       <el-button type="primary" size="small" @click="resetSearch">重置</el-button>
       <el-button type="primary" size="small" style="float: right" @click="addData">新建</el-button>
     </div>
+    <el-divider />
     <el-table
       v-loading="loading"
+      element-loading-text="拼命加载中"
       :data="account"
       border
       :height="table.height"
@@ -144,38 +146,90 @@
       @pagination="getAccountList"
     />
     <transition name="el-fade-in-linear">
-      <el-dialog :title="addPage.title" :visible.sync="addPage.dialogFormVisible">
+      <el-dialog :title="addPage.title" :visible.sync="addPage.dialogFormVisible" class="pub_dialog">
         <el-steps :active="addPage.active" align-center finish-status="success">
           <el-step title="用户信息" />
           <el-step title="用户授权" />
           <el-step title="确认信息" />
         </el-steps>
-        <div v-show="addPage.active === 0" class="infoForm">
-          <transition name="el-zoom-in-top">
-            <el-form ref="addForm" :model="addPage.form" label-width="120px" size="small">
-              <el-form-item label="显示名称" prop="displayName">
-                <el-input v-model="addPage.form.displayName" size="small" placeholder="请输入显示名称" maxlength="20" />
-              </el-form-item>
-              <el-form-item label="邮箱" prop="userEmail">
-                <el-input v-model="addPage.form.userEmail" size="small" placeholder="请输入邮箱" maxlength="128" />
-              </el-form-item>
-              <el-form-item label="应用程序ID" prop="clientId">
-                <el-input v-model="addPage.form.clientId" size="small" placeholder="请输入应用程序ID" maxlength="128" />
-              </el-form-item>
-              <el-form-item label="机密" prop="secretKey">
-                <el-input v-model="addPage.form.secretKey" size="small" placeholder="请输入机密" maxlength="128" />
-              </el-form-item>
-            </el-form>
-          </transition>
+        <el-divider />
+        <div class="dialog-container">
+          <div v-show="addPage.active === 0" class="infoForm">
+            <transition name="el-zoom-in-top">
+              <el-form ref="addForm" :model="addPage.form" :rules="addPage.formRules" label-width="120px" size="small">
+                <el-form-item label="邮箱" prop="userEmail">
+                  <el-input v-model="addPage.form.userEmail" size="small" placeholder="请输入邮箱" maxlength="128" />
+                </el-form-item>
+                <el-form-item label="应用程序ID" prop="clientId">
+                  <el-input
+                    v-model="addPage.form.clientId"
+                    size="small"
+                    placeholder="请输入应用程序ID"
+                    maxlength="128"
+                  />
+                </el-form-item>
+                <el-form-item label="租户ID" prop="clientId">
+                  <el-input
+                    v-model="addPage.form.tenantId"
+                    size="small"
+                    placeholder="请输入租户ID"
+                    maxlength="128"
+                  />
+                </el-form-item>
+                <el-form-item label="机密" prop="secretKey">
+                  <el-input v-model="addPage.form.secretKey" size="small" placeholder="请输入机密" maxlength="128" />
+                </el-form-item>
+              </el-form>
+            </transition>
+          </div>
+          <div v-show="addPage.active === 1" class="auth">
+            <el-empty image-size="120" :image="require('@/assets/loding/loading.gif')" description="授权中..." />
+          </div>
+          <div v-show="addPage.active === 2" class="descriptions">
+            <el-descriptions title="详细信息" :column="2" size="medium" border label-style="min-width:95px">
+              <el-descriptions-item>
+                <template slot="label">显示名称</template>
+                {{ addPage.form.displayName }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">名称</template>
+                {{ addPage.form.userName }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">邮箱</template>
+                {{ addPage.form.userEmail }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">应用程序ID</template>
+                {{ addPage.form.clientId }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">租户ID</template>
+                {{ addPage.form.tenantId }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">机密</template>
+                {{ addPage.form.secretKey }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">刷新token</template>
+                {{ addPage.form.refreshToken }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">认证token</template>
+                {{ addPage.form.accessToken }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </div>
         </div>
-        <div v-show="addPage.actions === 1">
-          <iframe id="iframe" ref="iframe" scrolling="no" frameborder="0" style="position:absolute;top:80px;left: 120px;" />
-        </div>
-
         <div slot="footer" class="dialog-footer">
           <el-button size="small" :disabled="addPage.active <= 0" @click="preStep">上一步</el-button>
-          <el-button type="primary" size="small" @click="nextStep">{{ addPage.active === 2 ? "确定" : "下一步" }}</el-button>
+          <el-button type="primary" size="small" @click="nextStep">{{
+            addPage.active === 2 ? "确定" : "下一步"
+          }}
+          </el-button>
         </div>
+
       </el-dialog>
     </transition>
   </div>
@@ -183,9 +237,10 @@
 
 <script>
 import Pagination from "@/components/Pagination"
-import {deleteAccount, getAccountList} from "@/api/microsoft_graph/acount_manage"
-import {timestampToTime} from "@/utils/util"
+import {createAccount, deleteAccount, getAccountList} from "@/api/microsoft_graph/acount_manage"
 import {Message} from "element-ui"
+import {getLoginUrl, getTempClientInfo} from "@/api/microsoft_graph/auth"
+import {timestampToTime} from "@/utils/util"
 
 export default {
   name: "AccountManage",
@@ -229,6 +284,7 @@ export default {
         }
       },
       account: [],
+      loading: false,
       table: {
         height: 0,
         sortBy: {
@@ -249,9 +305,34 @@ export default {
         active: 0,
         form: {
           displayName: "",
-          userEmail: "",
-          clientId: "",
-          secretKey: ""
+          userName: "",
+          userEmail: "daihengfei@live.com",
+          userId: "",
+          clientId: "31e69c1a-744f-4011-a7de-53c679edeb79",
+          tenantId: "8c9ca7b2-959e-4720-b081-432c77a66652",
+          secretKey: "T6k7Q~UOHjsSQwAhwWkr2X3PQQLbfICauE7ej",
+          accessToken: "",
+          refreshToken: ""
+        },
+        formRules: {
+          userEmail: [{
+            required: true,
+            message: "请输入用户邮箱",
+            trigger: "blur"
+          }],
+          clientId: [{
+            required: true,
+            message: "请输入应用程序ID",
+            trigger: "blur"
+          }],
+          secretKey: [{
+            required: true,
+            message: "请输入机密",
+            trigger: "blur"
+          }]
+        },
+        iframes: {
+          src: ""
         }
       }
     }
@@ -273,7 +354,7 @@ export default {
 
   methods: {
     computedTableHeight() {
-      return window.innerHeight - 223
+      return window.innerHeight - 223 - 40
     },
 
     computedPageSize(height) {
@@ -288,7 +369,7 @@ export default {
 
     getAccountList() {
       this.loading = true
-      const search = JSON.stringify({
+      const search = {
         page: this.pagination.listQuery.page,
         size: this.pagination.listQuery.limit,
         userEmail: this.search.emailSearch,
@@ -297,7 +378,7 @@ export default {
         enabled: this.search.enabledSearch,
         sortByProp: this.table.sortBy.prop,
         sortByOrder: this.table.sortBy.order
-      })
+      }
       getAccountList(search).then(res => {
         const {total, clientInfos} = JSON.parse(res.data)
         this.account = clientInfos
@@ -335,6 +416,7 @@ export default {
         this.addPage.form.displayName = rows[index].displayName
         this.addPage.form.userEmail = rows[index].userEmail
         this.addPage.form.clientId = rows[index].clientId
+        this.addPage.form.tenantId = rows[index].tenantId
         this.addPage.form.secretKey = rows[index].secretKey
       } else {
         this.addPage.title = "新增"
@@ -365,9 +447,46 @@ export default {
     },
 
     nextStep() {
-      if (this.addPage.active === 2) {
-        Message.success("保存成功")
-        this.addPage.dialogFormVisible = false
+      if (this.addPage.active === 0) {
+        const {form} = this.addPage
+        this.$refs.addForm.validate(valid => {
+          if (valid) {
+            getLoginUrl(form).then(res => {
+              this.addPage.active++
+              window.open(res.data, "_blank")
+              this.$confirm("授权成功了吗？", "提示", {
+                confirmButtonText: "成功",
+                cancelButtonText: "失败",
+                type: "info"
+              }).then(async() => {
+                getTempClientInfo(form.userEmail).then(res => {
+                  const data = JSON.parse(res.data)
+                  this.addPage.form.displayName = data.displayName
+                  this.addPage.form.userName = data.userName
+                  this.addPage.form.userId = data.userId
+                  this.addPage.form.accessToken = data.accessToken
+                  this.addPage.form.refreshToken = data.refreshToken
+                  this.addPage.active++
+                }).catch(err => {
+                  Message.error(err.message)
+                })
+              }).catch(() => {
+                this.addPage.active--
+                Message.info("已取消授权")
+              })
+            }).catch(err => {
+              Message.error(err.message)
+            })
+          }
+        })
+      } else if (this.addPage.active === 2) {
+        createAccount(this.addPage.form).then(res => {
+          Message.success("保存成功")
+          this.addPage.dialogFormVisible = false
+          this.getAccountList()
+        }).catch(err => {
+          Message.error(err.message)
+        })
       } else {
         this.addPage.active++
       }
@@ -418,18 +537,30 @@ export default {
   width: 100%;
 }
 
-.el-dialog {
+  .dialog-container {
+    //width: 60%;
+    height: 40vh !important;
+    overflow: auto !important;
+  }
 
   .infoForm {
-    margin-top: 30px;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+    height: 100%;
     .el-form {
       width: 90%;
     }
   }
-}
+
+  .auth {
+    text-align: center;
+  }
+
+  .descriptions {
+    width: 100%;
+
+    .my-label {
+      width: 120px;
+      min-width: 120px;
+    }
+  }
 </style>

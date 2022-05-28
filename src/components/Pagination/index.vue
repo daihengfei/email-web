@@ -106,12 +106,11 @@ export default {
   },
   methods: {
     resetPagination() {
+      let defaultPageList = [10, 30, 50, 100]
+      defaultPageList.push(this.limit)
+      defaultPageList = [...new Set(defaultPageList.sort((a, b) => a - b))]
       this.pageSize = this.limit
-      this.currentPage = 1
-    },
-
-    userChangePageSize() {
-      this.pageSize = this.limit
+      this.pageSizes = defaultPageList
       this.currentPage = 1
     },
 
